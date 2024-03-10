@@ -16,13 +16,18 @@ export const FeedbackProvider = ({ children }) => {
   }, []);
 
   // fetch feedback
-  const fetchFeedback = async () => {
-    const response = await fetch(`/feedback?_sort=id&_order=desc`);
+ const fetchFeedback = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/feedback?_sort=id&_order=desc`);
     const data = await response.json();
 
     setFeedback(data);
     setIsLoading(false);
-  };
+  } catch (error) {
+    console.error('Error fetching feedback:', error);
+    // Handle the error (e.g., set an error state)
+  }
+};
 
   // add feedback
   const addFeedback = async (newFeedback) => {
